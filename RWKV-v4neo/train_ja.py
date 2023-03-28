@@ -276,10 +276,12 @@ if __name__ == "__main__":
 
     from src.trainer import train_callback, generate_init_weight
     from src.dataset import MyDataset
-    print('----111')
-    train_data = MyDataset(args)
+    from src.dataset_ja import DatasetJA
+    print('load data set...')
+    # train_data = MyDataset(args)
+    train_data = DatasetJA(args)    
     # args.vocab_size = train_data.vocab_size
-    print('000')
+
 
     from src.model import RWKV, LORA_CONFIG, LoraLinear
     if args.lora:
@@ -291,10 +293,11 @@ if __name__ == "__main__":
         enable_time_finetune = 'time' in LORA_CONFIG["parts"]
         enable_ln_finetune = 'ln' in LORA_CONFIG["parts"]
 
-    print('111')
+    
     model = RWKV(args)
     # only train lora parameters
     if args.lora:
+        print('lora...')
         model.requires_grad_(False)
         for name, module in model.named_modules():
             # have to check param name since it may have been wrapped by torchscript
@@ -307,7 +310,7 @@ if __name__ == "__main__":
                 print(f'  LoRA additionally training {name}')
                 for param in module.parameters():
                     param.requires_grad = True
-    print('22222')
+    
     if len(args.load_model) == 0 or args.my_pile_stage == 1:  # shall we build the initial weights?
         init_weight_name = f"{args.proj_dir}/rwkv-init.pth"
         generate_init_weight(model, init_weight_name)  # save initial weights

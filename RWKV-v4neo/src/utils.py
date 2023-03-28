@@ -26,7 +26,7 @@ class TOKENIZER():
             self.vocab_size = len(self.tokenizer)
         else:
             self.charMode = True
-            with open(WORD_NAME + '.json', "r", encoding="utf-16") as result_file:
+            with open(WORD_NAME + '.json', "r", encoding="utf-16") as result_file:            
                 self.word_table = json.load(result_file)
 
             self.vocab_size = len(self.word_table)
