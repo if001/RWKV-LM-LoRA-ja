@@ -278,7 +278,7 @@ if __name__ == "__main__":
     from src.dataset import MyDataset
     print('----111')
     train_data = MyDataset(args)
-    args.vocab_size = train_data.vocab_size
+    # args.vocab_size = train_data.vocab_size
     print('000')
 
     from src.model import RWKV, LORA_CONFIG, LoraLinear
