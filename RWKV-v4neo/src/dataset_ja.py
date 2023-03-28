@@ -15,6 +15,7 @@ from .utils import TOKENIZER
 class DatasetJA(Dataset):
     def __init__(self, args):
         self.args = args        
+        self.ctx_len = args.ctx_len
         self.data = open(args.data_file, "r", encoding=args.data_type).read()
         self.data_size = len(self.data)
 
@@ -28,13 +29,17 @@ class DatasetJA(Dataset):
     def __len__(self):
         return self.args.epoch_steps * self.args.micro_bsz
 
+    def _encode(self, d):
+       return self.t.tokenizer.encode(
+            d,
+            padding="max_length",
+            max_length=self.ctx_len,
+            return_tensors="pt",
+            add_special_tokens=False,
+            dtype=torch.long
+       )
     def __getitem__(self, idx):
-        args = self.args
-        ctx_len = args.ctx_len
-        data = self.data[idx: ctx_len]
-        x = self.t.tokenizer.encode(data[1:], add_special_tokens=False)
-        y = self.t.tokenizer.encode(data[:-1], add_special_tokens=False)
-
-        x = torch.tensor(x, dtype=torch.long)
-        y = torch.tensor(y, dtype=torch.long)
+        data = self.data[idx: self.ctx_len]
+        x = self._encode(data[1])
+        y = self._encode(data[:-1])
         return x, y
