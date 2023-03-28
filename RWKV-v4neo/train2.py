@@ -318,15 +318,17 @@ if __name__ == "__main__":
         load_dict = torch.load(args.load_model, map_location="cpu")
     except:
         rank_zero_info(f"Bad checkpoint {args.load_model}")
-        if args.my_pile_stage >= 2:  # try again using another checkpoint
-            max_p = args.my_pile_prev_p
-            if max_p == -1:
-                args.load_model = f"{args.proj_dir}/rwkv-init.pth"
-            else:
-                args.load_model = f"{args.proj_dir}/rwkv-{max_p}.pth"
-            args.epoch_begin = max_p + 1
-            rank_zero_info(f"Trying {args.load_model}")
-            load_dict = torch.load(args.load_model, map_location="cpu")
+        load_model = f"{args.load_model}.1"
+        load_dict = torch.load(load_model, map_location="cpu")
+        # if args.my_pile_stage >= 2:  # try again using another checkpoint
+        #     max_p = args.my_pile_prev_p
+        #     if max_p == -1:
+        #         args.load_model = f"{args.proj_dir}/rwkv-init.pth"
+        #     else:
+        #         args.load_model = f"{args.proj_dir}/rwkv-{max_p}.pth"
+        #     args.epoch_begin = max_p + 1
+        #     rank_zero_info(f"Trying {args.load_model}")
+        #     load_dict = torch.load(args.load_model, map_location="cpu")
 
     if args.load_partial == 1:
         load_keys = load_dict.keys()
