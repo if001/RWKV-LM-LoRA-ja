@@ -14,9 +14,9 @@ else:
     lora_alpha, base_model, lora, output = sys.argv[1:]
 
 
-w: Dict[str, torch.Tensor] = torch.load(base_model + '.pth', map_location='cpu')
+w: Dict[str, torch.Tensor] = torch.load(base_model, map_location='cpu')
 # merge LoRA-only slim checkpoint into the main weights
-w_lora: Dict[str, torch.Tensor] = torch.load(lora + '.pth', map_location='cpu')
+w_lora: Dict[str, torch.Tensor] = torch.load(lora, map_location='cpu')
 for k in w_lora.keys():
     w[k] = w_lora[k]
 # merge LoRA weights
