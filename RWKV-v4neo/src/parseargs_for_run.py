@@ -8,6 +8,8 @@ def argparse_for_run(def_args):
     parser.add_argument("--n_embd", default=4096, type=int)
     parser.add_argument("--ctx_len", default=1024, type=int)
     parser.add_argument("--vocab_size", default="", type=int)
+    parser.add_argument("--float_mode", default="fp16", type=str)
+    # fp16 (good for GPU, does not work for CPU) // fp32 (good for CPU) // bf16 (less accurate, but works for CPU)
 
     parser.add_argument("--run_device", default="cuda", type=str)
 
@@ -24,6 +26,7 @@ def argparse_for_run(def_args):
     def_args.n_embd = args.n_embd
     def_args.ctx_len = args.ctx_len
     def_args.vocab_size = args.vocab_size
+    def_args.float_mode = args.float_mode
 
     def_args.RUN_DEVICE = args.run_device
 
