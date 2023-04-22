@@ -280,8 +280,10 @@ if __name__ == "__main__":
 
     from src.trainer import train_callback, generate_init_weight
     from src.dataset import MyDataset
-
-    train_data = MyDataset(args)
+    from src.dataset_ja import DatasetJA
+    
+    # train_data = MyDataset(args)
+    train_data = DatasetJA(args)
     args.vocab_size = train_data.vocab_size
 
     if args.data_type == 'wds_img':
