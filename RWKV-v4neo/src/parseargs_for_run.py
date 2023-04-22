@@ -11,11 +11,11 @@ def argparse_for_run(def_args):
 
     parser.add_argument("--run_device", default="cuda", type=str)
 
-
-
     parser.add_argument("--model_lora", default="", type=str)
     parser.add_argument("--lora_r", default=8, type=int)
     parser.add_argument("--lora_alpha", default=32, type=int)
+
+    parser.add_argument("--context", default=32, type=str)
 
     args = parser.parse_args()
 
@@ -30,6 +30,8 @@ def argparse_for_run(def_args):
     def_args.MODEL_LORA = args.model_lora
     def_args.lora_r = args.lora_r
     def_args.lora_alpha = args.lora_alpha
+
+    def_args.context = args.context
     return def_args
 
     
