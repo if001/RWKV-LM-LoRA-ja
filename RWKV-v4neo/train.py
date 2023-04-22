@@ -282,8 +282,8 @@ if __name__ == "__main__":
     from src.dataset import MyDataset
     from src.dataset_ja import DatasetJA
     
-    # train_data = MyDataset(args)
-    train_data = DatasetJA(args)
+    train_data = MyDataset(args)
+    # train_data = DatasetJA(args)
     args.vocab_size = train_data.vocab_size
 
     if args.data_type == 'wds_img':
