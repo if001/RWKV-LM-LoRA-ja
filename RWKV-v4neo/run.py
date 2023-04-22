@@ -74,6 +74,9 @@ args.grad_cp = 0
 args.my_pos_emb = 0
 os.environ["RWKV_RUN_DEVICE"] = args.RUN_DEVICE
 
+from src.parseargs_for_run import argparse_for_run
+args = argparse_for_run(args)
+
 ########################################################################################################
 # Step 2: set prompt & sampling stuffs
 ########################################################################################################
@@ -81,7 +84,8 @@ os.environ["RWKV_RUN_DEVICE"] = args.RUN_DEVICE
 # context = 'A'
 # context = "\nIn the"
 # context = '\nSugar:'
-context = "\nIn a shocking finding, scientist discovered a herd of dragons living in a remote, previously unexplored valley, in Tibet. Even more surprising to the researchers was the fact that the dragons spoke perfect Chinese."
+# context = "\nIn a shocking finding, scientist discovered a herd of dragons living in a remote, previously unexplored valley, in Tibet. Even more surprising to the researchers was the fact that the dragons spoke perfect Chinese."
+context = sys.argv[-1]
 
 # context = "\n深圳是" # test Chinese
 # context = "\n東京は" # test Japanese
