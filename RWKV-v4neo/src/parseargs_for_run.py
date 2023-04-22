@@ -26,7 +26,7 @@ def argparse_for_run(def_args):
     def_args.n_embd = args.n_embd
     def_args.ctx_len = args.ctx_len
     def_args.vocab_size = args.vocab_size
-    def_args.float_mode = args.float_mode
+    def_args.FLOAT_MODE = args.float_mode
 
     def_args.RUN_DEVICE = args.run_device
 
