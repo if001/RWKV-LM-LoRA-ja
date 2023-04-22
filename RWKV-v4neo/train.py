@@ -304,15 +304,19 @@ if __name__ == "__main__":
             model.requires_grad_(False)
             for name, module in model.named_modules():
                 # have to check param name since it may have been wrapped by torchscript
-                if 'lora_A' in set(n for n, _ in module.named_parameters()):
-                    print(f'  LoRA training {name}')
+                if any(n.startswith("lora_") for n, _ in module.named_parameters()):
+                    print(f'  LoRA training module {name}')
                     for pname, param in module.named_parameters():
                         param.requires_grad = 'lora_' in pname
-                elif ((enable_time_finetune and '.time_' in name)
-                        or (enable_ln_finetune and '.ln' in name)):
-                    print(f'  LoRA additionally training {name}')
+                elif enable_ln_finetune and '.ln' in name:
+                    print(f'  LoRA additionally training module {name}')
                     for param in module.parameters():
                         param.requires_grad = True
+                elif enable_time_finetune and any(n.startswith("time") for n, _ in module.named_parameters()):
+                    for pname, param in module.named_parameters():
+                        if pname.startswith("time"):
+                            print(f'  LoRA additionally training parameter {pname}')
+                            param.requires_grad = True
 
     if len(args.load_model) == 0 or args.my_pile_stage == 1:  # shall we build the initial weights?
         init_weight_name = f"{args.proj_dir}/rwkv-init.pth"
