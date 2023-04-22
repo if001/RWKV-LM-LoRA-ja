@@ -152,7 +152,7 @@ if TOKEN_MODE == "pile":
     assert tokenizer.tokenizer.decode([187]) == '\n'
 
 ########################################################################################################
-
+print(f'tokenizer.charMode: {tokenizer.charMode}')
 if tokenizer.charMode:
     context = tokenizer.refine_context(context)
     ctx = [tokenizer.stoi.get(s, tokenizer.UNKNOWN_CHAR) for s in context]
@@ -180,7 +180,8 @@ init_state = None
 init_out = None
 state = None
 out = None
-
+stock = ''
+stop = '### 指示: '
 for TRIAL in range(1 if DEBUG_DEBUG else NUM_TRIALS):
     print(("-" * 50) + '\n' + context, end="")
 
@@ -231,6 +232,10 @@ for TRIAL in range(1 if DEBUG_DEBUG else NUM_TRIALS):
             if '\ufffd' not in char: # is valid utf8 string?
                 print(char, end="", flush=True)
                 out_last = i+1
+                stock += char
+                print('stock;', stock)
+        if stop in stock:
+            break
 
     record_time('total')
     # print(f'\n\n{time_slot}\n\n')
