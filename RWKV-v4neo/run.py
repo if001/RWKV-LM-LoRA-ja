@@ -58,7 +58,8 @@ vocab_size = 50277
 # n_embd = 2560
 # ctx_len = 1024
 
-MODEL_NAME = '/fsx/BlinkDL/HF-MODEL/rwkv-4-pile-7b/RWKV-4-Pile-7B-20221115-8047'
+# MODEL_NAME = '/fsx/BlinkDL/HF-MODEL/rwkv-4-pile-7b/RWKV-4-Pile-7B-20221115-8047'
+MODEL_NAME='./weights/RWKV-4-Pile-3B-20221008-8023.pth'
 n_layer = 32
 n_embd = 4096
 ctx_len = 1024
@@ -133,11 +134,10 @@ DEBUG_DEBUG = False  # True False --> show softmax output
 
 ########################################################################################################
 
-print(f'\nUsing {args.RUN_DEVICE.upper()}. Loading {MODEL_NAME}...')
 from src.model_run import RWKV_RNN
 
 model = RWKV_RNN(args)
-
+print(f'\nUsing {args.RUN_DEVICE.upper()}. Loading {args.MODEL_NAME}...')
 print(f'\nOptimizing speed...')
 out, _ = model.forward([187], None)
 # print(out)
@@ -153,6 +153,7 @@ if TOKEN_MODE == "pile":
 
 ########################################################################################################
 print(f'tokenizer.charMode: {tokenizer.charMode}')
+
 if tokenizer.charMode:
     context = tokenizer.refine_context(context)
     ctx = [tokenizer.stoi.get(s, tokenizer.UNKNOWN_CHAR) for s in context]
